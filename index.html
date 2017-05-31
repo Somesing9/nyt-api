@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en-us">
+
+<head>
+    <meta charset="utf-8">
+    <!-- <meta http-equiv="x-ua-compatible" content="ie=edge"> -->
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="page-header text-center">
+                <h1 class="main-header">New York Times API</h1>
+            </div>
+        </div>
+        <div class="row">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="search-term">Search Term</label>
+                    <input type="text" class="form-control" id="search-term" placeholder="Search Term">
+                </div>
+                <div class="form-group">
+                    <label for="records">Number of Records to Retrieve:</label>
+                    <select id="records" class="form-control">
+                        <option>1</option>
+                        <option>5</option>
+                        <option>10</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="start-date">Start Date</label>
+                    <input type="text" class="form-control" id="start-date" placeholder="Start Date">
+                </div>
+                <div class="form-group">
+                    <label for="end-date">Start Date</label>
+                    <input type="text" class="form-control" id="end-date" placeholder="End Date">
+                </div>
+                <button id="btn-search" type="submit" class="btn btn-default">Send invitation</button>
+            </form>
+        </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="./assets/js/bootstrap.min.js"></script>
+    <script>
+    $("#btn-search").on("click", function() {
+        event.preventDefault();
+        // var searchTerm = "lebron";
+        // var records = $("#records");
+        // var startYear = "2001";
+        // var endYear = "2010";
+
+        var searchTerm = $("#search-term").val();
+        var records = $("#records").val();
+        var startYear = $("#start-date").val();
+        var endYear = $("#end-date").val();
+
+        // Built by LucyBot. www.lucybot.com
+        var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json";
+        url += '?' + $.param({
+            'api-key': "1404ec14afd94ed6ad856d78a72c23d1",
+            'q': searchTerm,
+            'begin_date': startYear + "0101",
+            'end_date': endYear + "0101"
+        });
+
+        // var url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?api-key=1404ec14afd94ed6ad856d78a72c23d1&q=lebron";
+
+        console.log(url);
+        // alert(url);
+        $.ajax({
+            url: url,
+            method: 'GET'
+        }).done(function(result) {
+            results = result.response.docs;
+            console.log(results);
+            console.log(results[0].headline.main);
+        });
+        /*.fail(function(err) {
+            console.log(url + " " + JSON.stringify(err));
+        });*/
+    });
+    </script>
+</body>
+
+</html>
